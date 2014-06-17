@@ -1,0 +1,91 @@
+﻿@section scripts {
+  @Scripts.Render("~/bundles/app")
+}
+
+<div class="page-header">
+  <h1>BookService</h1>
+</div>
+
+<div class="row">
+
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Books</h2>
+      </div>
+      <div class="panel-body">
+        <ul class="list-unstyled" data-bind="foreach: books">
+          <li>
+            <strong><span data-bind="text: AuthorName"></span></strong>: <span data-bind="text: Title"></span>
+            <!-- New code -->
+            <small><a href="#" data-bind="click: $parent.getBookDetail">Details</a></small>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+  </div>
+
+  <!-- ko if:detail() -->
+
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Detail</h2>
+      </div>
+      <table class="table">
+        <tr><td>Author</td><td data-bind="text: detail().AuthorName"></td></tr>
+        <tr><td>Title</td><td data-bind="text: detail().Title"></td></tr>
+        <tr><td>Year</td><td data-bind="text: detail().Year"></td></tr>
+        <tr><td>Genre</td><td data-bind="text: detail().Genre"></td></tr>
+        <tr><td>Price</td><td data-bind="text: detail().Price"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- /ko -->
+
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Add Book</h2>
+      </div>
+
+      <div class="panel-body">
+        <form class="form-horizontal" data-bind="submit: addBook">
+          <div class="form-group">
+            <label for="inputAuthor" class="col-sm-2 control-label">Author</label>
+            <div class="col-sm-10">
+              <select data-bind="options:authors, optionsText: 'Name', value: newBook.Author"></select>
+            </div>
+          </div>
+
+          <div class="form-group" data-bind="with: newBook">
+            <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputTitle" data-bind="value:Title" placeholder="Title" />
+            </div>
+
+            <label for="inputYear" class="col-sm-2 control-label">Year</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="inputYear" data-bind="value:Year" placeholder="1900" />
+            </div>
+
+            <label for="inputGenre" class="col-sm-2 control-label">Genre</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputGenre" data-bind="value:Genre" placeholder="Fiction" />
+            </div>
+
+            <label for="inputPrice" class="col-sm-2 control-label">Price</label>
+            <div class="col-sm-10">
+              <input type="number" step="any" class="form-control" id="inputPrice" data-bind="value:Price" placeholder="0.00" />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</div>

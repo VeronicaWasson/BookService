@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookService", "BookService\BookService.csproj", "{0563925A-B8AD-4496-8897-9DFDDCEE632C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{22E19420-5B32-41F8-8E53-962B0D80229A}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
+		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{D59142FC-1EE0-47CD-8968-FF2D825BE0C9}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\BookService-WAWS-dev.json = PublishScripts\Configurations\BookService-WAWS-dev.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0563925A-B8AD-4496-8897-9DFDDCEE632C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0563925A-B8AD-4496-8897-9DFDDCEE632C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0563925A-B8AD-4496-8897-9DFDDCEE632C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0563925A-B8AD-4496-8897-9DFDDCEE632C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D59142FC-1EE0-47CD-8968-FF2D825BE0C9} = {22E19420-5B32-41F8-8E53-962B0D80229A}
+	EndGlobalSection
+EndGlobal
