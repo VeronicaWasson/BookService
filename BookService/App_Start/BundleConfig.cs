@@ -25,7 +25,8 @@ namespace BookService
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
-                         "~/Scripts/knockout-{version}.js",
+                         "~/Scripts/angular.js",
+                         "~/Scripts/angular-route.js",
                          "~/Scripts/app.js"));            
 
             // Set EnableOptimizations to false for debugging. For more information,

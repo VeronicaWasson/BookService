@@ -1,69 +1,96 @@
-﻿var ViewModel = function () {
-    var self = this;
-    self.books = ko.observableArray();
-    self.error = ko.observable();
-    self.detail = ko.observable();
-    self.authors = ko.observableArray();
-    self.newBook = {
-        Author: ko.observable(),
-        Genre: ko.observable(),
-        Price: ko.observable(),
-        Title: ko.observable(),
-        Year: ko.observable()
-    }
+﻿var booksApp = angular.module('booksApp', ['ngRoute']);         // The app depends on ngRoute module
 
-    var booksUri = '/api/books/';
-    var authorsUri = '/api/authors/';
+booksApp.factory('BookService', function ($http, $cacheFactory) {
+    var url = '/api/books';
+    return {
+        getAllBooks: function () {
+            return $http.get(url, { cache: true });
+        },
+        getBook: function (id) {
+            return $http.get(url + '/' + id);
+        },
+        addBook: function (book) {
+            // Clear the books cache
+            var cache = $cacheFactory.get('$http');
+            cache.remove(url);
 
-    function ajaxHelper(uri, method, data) {
-        self.error(''); // Clear error message
-        return $.ajax({
-            type: method,
-            url: uri,
-            dataType: 'json',
-            contentType: 'application/json',
-            data: data ? JSON.stringify(data) : null
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            self.error(errorThrown);
-        });
-    }
-
-    function getAllBooks() {
-        ajaxHelper(booksUri, 'GET').done(function (data) {
-            self.books(data);
-        });
-    }
-
-    self.getBookDetail = function (item) {
-        ajaxHelper(booksUri + item.Id, 'GET').done(function (data) {
-            self.detail(data);
-        });
-    }
-
-    function getAuthors() {
-        ajaxHelper(authorsUri, 'GET').done(function (data) {
-            self.authors(data);
-        });
-    }
+            // Then submit the POST request.
+            return $http.post(url, book);
+        }
+    };
+});
 
 
-    self.addBook = function (formElement) {
+booksApp.factory('AuthorService', function ($http) {
+    var url = '/api/authors';
+    return {
+        getAllAuthors: function () {
+            return $http.get(url, { cache: true });
+        }
+    };
+});
+
+
+// Configure routes
+booksApp.config(function($routeProvider) {
+    $routeProvider.when('/books', {
+        templateUrl: 'Templates/book-list.html',
+        controller: 'BooksController'
+    })
+    .when('/detail/:id', {
+        templateUrl: 'Templates/book-detail.html',
+        controller: 'BookDetailController'
+    })
+    .when('/add-book', {
+        templateUrl: 'Templates/add-book.html',
+        controller: 'AddBookController'
+    })
+    .otherwise({
+        redirectTo: '/books'
+    });
+})
+
+// Controllers
+
+booksApp.controller('BooksController', function ($scope, BookService) {
+    BookService.getAllBooks().success(function (data) {
+        $scope.books = data;
+    });
+    
+});
+
+
+booksApp.controller('BookDetailController', function ($scope, $routeParams, BookService) {
+    BookService.getBook($routeParams.id).success(function (data) {
+        $scope.book = data;
+    });
+});
+
+
+booksApp.controller('AddBookController', function ($scope, $cacheFactory, BookService, AuthorService) {
+
+    $scope.pending = false;
+
+    // Fetch the list of authors
+    AuthorService.getAllAuthors().success(function (data) {
+        $scope.authors = data;
+        $scope.selectedAuthor = $scope.authors[0];
+    });
+
+    $scope.book = { };
+
+    $scope.addBook = function () {
         var book = {
-            AuthorId: self.newBook.Author().Id,
-            Genre: self.newBook.Genre(),
-            Price: self.newBook.Price(),
-            Title: self.newBook.Title(),
-            Year: self.newBook.Year()
+            AuthorId: $scope.selectedAuthor.Id,
+            Genre: $scope.book.Genre,
+            Price: $scope.book.Price,
+            Title: $scope.book.Title,
+            Year: $scope.book.Year
         };
 
-        ajaxHelper(booksUri, 'POST', book).done(function (item) {
-            self.books.push(item);
+        $scope.pending = true;
+        BookService.addBook(book).then(function () {
+            $scope.pending = false;
         });
-    }
-
-    // Fetch the initial data.
-    getAllBooks();
-    getAuthors();
-};
-
-ko.applyBindings(new ViewModel());
+    };
+});
