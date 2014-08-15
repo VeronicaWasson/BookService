@@ -4,97 +4,11 @@
 }
 
 <div ng-app="booksApp">
-
-@*<div class="page-header">
-  <h1>BookService</h1>
-</div>*@
-
-    <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs">
     <li><a href="#">Home</a></li>
     <li><a href="#/add-book">Add Book</a></li>
-    </ul>
+  </ul>
 
-
-<div class="row" ng-view></div>
-
-
-  @*<div class="col-md-4"  ng-controller="BookListCtrl">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h2 class="panel-title">Books</h2>
-      </div>
-      <div class="panel-body">
-        <ul class="list-unstyled">
-          <li ng-repeat="book in books">
-            <strong>{{book.AuthorName}}</strong>: {{book.Title}}
-            <!-- New code -->
-            <small><a href="#">Details</a></small>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="alert alert-danger"><p></p></div>
-  </div>
-
-  <div class="col-md-4"  ng-controller="BookDetailCtrl">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h2 class="panel-title">Detail</h2>
-      </div>
-      <table class="table">
-        <tr><td>Author</td><td>{{book.AuthorName}}</td></tr>
-        <tr><td>Title</td><td>{{book.Title}}</td></tr>
-        <tr><td>Year</td><td>{{book.Year}}</td></tr>
-        <tr><td>Genre</td><td>{{book.Genre}}</td></tr>
-        <tr><td>Price</td><td>{{book.Price}}</td></tr>
-      </table>
-    </div>
-  </div>
-
-  <!-- /ko -->
-
-  <div class="col-md-4">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h2 class="panel-title">Add Book</h2>
-      </div>
-
-      <div class="panel-body">
-        <form class="form-horizontal">
-          <div class="form-group">
-            <label for="inputAuthor" class="col-sm-2 control-label">Author</label>
-            <div class="col-sm-10">
-              <select></select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="inputTitle" class="col-sm-2 control-label">Title</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputTitle" placeholder="Title" />
-            </div>
-
-            <label for="inputYear" class="col-sm-2 control-label">Year</label>
-            <div class="col-sm-10">
-              <input type="number" class="form-control" id="inputYear" placeholder="1900" />
-            </div>
-
-            <label for="inputGenre" class="col-sm-2 control-label">Genre</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputGenre" placeholder="Fiction" />
-            </div>
-
-            <label for="inputPrice" class="col-sm-2 control-label">Price</label>
-            <div class="col-sm-10">
-              <input type="number" step="any" class="form-control" id="inputPrice" placeholder="0.00" />
-            </div>
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-      </div>
-    </div>
-  </div>*@
-
-
-
+  <div class="row" ng-view></div>
+  <div class="alert alert-danger" ng-show="error"><p>{{error}}</p></div>
 </div>

@@ -1,5 +1,7 @@
 ﻿var booksApp = angular.module('booksApp', ['ngRoute']);         // The app depends on ngRoute module
 
+// Services to encapsulate RESTful calls.
+
 booksApp.factory('BookService', function ($http, $cacheFactory) {
     var url = '/api/books';
     return {
@@ -10,16 +12,15 @@ booksApp.factory('BookService', function ($http, $cacheFactory) {
             return $http.get(url + '/' + id);
         },
         addBook: function (book) {
-            // Clear the books cache
+            // Clear the books cache.
             var cache = $cacheFactory.get('$http');
             cache.remove(url);
 
-            // Then submit the POST request.
+            // Then submit the AJAX request.
             return $http.post(url, book);
         }
     };
 });
-
 
 booksApp.factory('AuthorService', function ($http) {
     var url = '/api/authors';
@@ -30,6 +31,24 @@ booksApp.factory('AuthorService', function ($http) {
     };
 });
 
+// Set global error message if AJAX calls fail
+booksApp.factory('httpInterceptor', function ($q, $rootScope) {
+    return {
+        'request': function (config) {
+            $rootScope.error = null;
+            return config;
+        },
+
+        'responseError': function (rejection) {
+            $rootScope.error = rejection.status + ': ' + rejection.statusText;
+            return $q.reject(rejection);
+        }
+    };
+});
+
+booksApp.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('httpInterceptor');
+});
 
 // Configure routes
 booksApp.config(function($routeProvider) {
