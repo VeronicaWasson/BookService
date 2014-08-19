@@ -2,7 +2,7 @@
 
 // Services to encapsulate RESTful calls.
 
-booksApp.factory('BookService', function ($http, $cacheFactory) {
+booksApp.factory('BookService', ['$http', '$cacheFactory', function ($http, $cacheFactory) {
     var url = '/api/books';
     return {
         getAllBooks: function () {
@@ -20,19 +20,19 @@ booksApp.factory('BookService', function ($http, $cacheFactory) {
             return $http.post(url, book);
         }
     };
-});
+}]);
 
-booksApp.factory('AuthorService', function ($http) {
+booksApp.factory('AuthorService', ['$http', function ($http) {
     var url = '/api/authors';
     return {
         getAllAuthors: function () {
             return $http.get(url, { cache: true });
         }
     };
-});
+}]);
 
 // Set global error message if AJAX calls fail
-booksApp.factory('httpInterceptor', function ($q, $rootScope) {
+booksApp.factory('httpInterceptor', ['$q', '$rootScope', function ($q, $rootScope) {
     return {
         'request': function (config) {
             $rootScope.error = null;
@@ -44,14 +44,14 @@ booksApp.factory('httpInterceptor', function ($q, $rootScope) {
             return $q.reject(rejection);
         }
     };
-});
+}]);
 
-booksApp.config(function ($httpProvider) {
+booksApp.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.interceptors.push('httpInterceptor');
-});
+}]);
 
 // Configure routes
-booksApp.config(function($routeProvider) {
+booksApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/books', {
         templateUrl: 'Templates/book-list.html',
         controller: 'BooksController'
@@ -67,26 +67,28 @@ booksApp.config(function($routeProvider) {
     .otherwise({
         redirectTo: '/books'
     });
-})
+}])
 
 // Controllers
 
-booksApp.controller('BooksController', function ($scope, BookService) {
+booksApp.controller('BooksController', ['$scope', 'BookService', function ($scope, BookService) {
     BookService.getAllBooks().success(function (data) {
         $scope.books = data;
     });
     
-});
+}]);
 
 
-booksApp.controller('BookDetailController', function ($scope, $routeParams, BookService) {
+booksApp.controller('BookDetailController', ['$scope', '$routeParams', 'BookService', 
+    function ($scope, $routeParams, BookService) {
     BookService.getBook($routeParams.id).success(function (data) {
         $scope.book = data;
     });
-});
+}]);
 
 
-booksApp.controller('AddBookController', function ($scope, $cacheFactory, BookService, AuthorService) {
+booksApp.controller('AddBookController', ['$scope', '$cacheFactory', 'BookService', 'AuthorService', 
+    function ($scope, $cacheFactory, BookService, AuthorService) {
 
     $scope.pending = false;
 
@@ -112,4 +114,4 @@ booksApp.controller('AddBookController', function ($scope, $cacheFactory, BookSe
             $scope.pending = false;
         });
     };
-});
+}]);
