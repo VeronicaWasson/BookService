@@ -1,0 +1,16 @@
+﻿  <div class="col-md-4" >
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Books</h2>
+      </div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          <li ng-repeat="book in books">
+            <strong>{{book.AuthorName}}</strong>: {{book.Title}}
+            <small><a href="#/detail/{{book.Id}}">Details</a></small>
+        </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
