@@ -2,7 +2,7 @@
     var self = this;
     self.books = ko.observableArray();
     self.error = ko.observable();
-    self.detail = ko.observable();
+    self.detail = ko.observableArray();
     self.authors = ko.observableArray();
     self.newBook = {
         Author: ko.observable(),
